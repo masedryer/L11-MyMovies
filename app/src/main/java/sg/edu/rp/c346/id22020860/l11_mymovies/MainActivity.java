@@ -39,19 +39,6 @@ public class MainActivity extends AppCompatActivity {
         rating.setAdapter(adapter);
 
         // Set up item selected listener for the spinner
-        rating.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                String selectedRating = adapterView.getSelectedItem().toString();
-                String counterpartString = getCounterpartString(selectedRating);
-                showCounterpartToast(counterpartString);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                // Do nothing
-            }
-        });
 
         insert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 int movieYear = Integer.parseInt(year.getText().toString());
                 String movieRating = rating.getSelectedItem().toString();
 
-              db.insertMovie(movieTitle,movieGenre,movieYear,movieRating);
+                db.insertMovie(movieTitle, movieGenre, movieYear, movieRating);
+                Toast.makeText( MainActivity.this, "Movie inserted", Toast.LENGTH_SHORT).show();
             }
         });
         show.setOnClickListener(new View.OnClickListener() {
@@ -71,34 +59,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-
-                Intent intent = new Intent(MainActivity.this,movieDisplay.class);
+                Intent intent = new Intent(MainActivity.this, movieDisplay.class);
                 startActivity(intent);
             }
         });
 
     }
 
-    private String getCounterpartString(String rating) {
-        switch (rating) {
-            case "G":
-                return "G";
-            case "PG":
-                return "PG";
-            case "PG13":
-                return "PG13";
-            case "NC16":
-                return "NC16";
-            case "M18":
-                return "M18";
-            case "R21":
-                return "R21";
-            default:
-                return "Unknown Rating";
-        }
-    }
-
-    private void showCounterpartToast(String counterpartString) {
-        Toast.makeText(this, counterpartString, Toast.LENGTH_SHORT).show();
-    }
 }
